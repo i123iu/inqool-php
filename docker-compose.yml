@@ -3,7 +3,10 @@ services:
   www: 
     build: './php/'
     volumes: 
-      - "./:/var/www/html"
+      - "./php/:/var/www/html"
+      - "./database/:/tmp/database/"
     ports:
       - 80:80
       - 443:443
+    environment:
+      - DB_PATH=/tmp/database/
