@@ -13,7 +13,7 @@ define('MAX_RESERVATION_DURATION', 24 * 60);
 
 $logger = new Logger();
 
-$db = new DB('../sqlite/db', ['../sqlite/tables.sql', '../sqlite/test-data.sql']);
+$db = new DB('../database/db.sqlite', ['models/tables.sql', 'models/test-data.sql']);
 $model = new Model($db, $logger);
 
 $router = new Router($model, $logger);

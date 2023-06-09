@@ -1,7 +1,7 @@
 version: '3'
 services: 
   www: 
-    build: './'
+    build: './php/'
     volumes: 
       - "./:/var/www/html"
     ports:
