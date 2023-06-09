@@ -1,0 +1,4 @@
+# Redirect everything to index.php
+
+RewriteEngine On
+RewriteRule ^(.*)$ index.php [NC,L]
