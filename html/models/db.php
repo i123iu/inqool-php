@@ -10,6 +10,11 @@ class DB
     function __construct(string $db_path, array|null $init_file_paths = null)
     {
         $new_db = !file_exists($db_path);
+        if ($new_db) {
+            $f = fopen($db_path, 'w');
+            if ($f === false) throw new Exception('couldnt create database file');
+            fclose($f);
+        }
         $this->conn = new PDO('sqlite:' . $db_path);
         $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         if ($new_db && $init_file_paths !== null) {

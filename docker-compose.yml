@@ -1,12 +1,12 @@
 version: '3'
 services: 
   www: 
-    build: './php/'
+    build: './'
     volumes: 
-      - "./php/:/var/www/html"
-      - "./database/:/tmp/database/"
+      - "./html/:/var/www/html/"
+      - "./database/:/var/www/database/"
     ports:
       - 80:80
       - 443:443
     environment:
-      - DB_PATH=/tmp/database/
+      - DB_PATH=/var/www/database/

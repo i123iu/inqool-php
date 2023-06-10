@@ -13,7 +13,7 @@ define('MAX_RESERVATION_DURATION', 24 * 60);
 
 $logger = new Logger();
 
-$db_path = ($_ENV["DB_PATH"] ?? '../database/') . 'db.sqlite';
+$db_path = ($_ENV['DB_PATH'] ?? '../database/') . 'db.sqlite';
 $db = new DB($db_path, ['models/tables.sql', 'models/test-data.sql']);
 $model = new Model($db, $logger);
 
