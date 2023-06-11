@@ -19,7 +19,7 @@ class Model
     }
 
 
-    public function get_all_courts() : array
+    public function get_all_courts(): array
     {
         $a = $this->db->execute(
             'SELECT courts.id as court_id, courts.name as court_name, surfaces.id as surface_id, surfaces.name as surface_name, surfaces.price as price
@@ -29,16 +29,16 @@ class Model
         return $a->fetchAll();
     }
 
-    public function get_reservations_for_court(int $court_id) : array
+    public function get_reservations_for_court(int $court_id): array
     {
         $a = $this->db->execute(
-            'SELECT id, court_id, double_game, start_time, end_time FROM reservations WHERE court_id=:id AND start_time',
+            'SELECT id, court_id, double_game, start_time, end_time FROM reservations WHERE court_id=:id AND DATE(start_time)>DATE(\'now\', \'-2 days\') AND DATE(end_time)<DATE(\'now\', \'+2 days\')',
             [':id' => [$court_id, PDO::PARAM_INT]]
         );
         return $a->fetchAll();
     }
 
-    public function get_reservations_by_phone_number(string $phone_number) : array
+    public function get_reservations_by_phone_number(string $phone_number): array
     {
         $a = $this->db->execute(
             'SELECT * FROM reservations WHERE phone_number=:phone_number',
@@ -77,7 +77,7 @@ class Model
     /**
      * @return bool True if deleted
      */
-    public function delete_reservation(int $reservation_id, string $phone_number) : bool
+    public function delete_reservation(int $reservation_id, string $phone_number): bool
     {
         $a = $this->db->execute(
             'DELETE FROM reservations WHERE id=:id AND phone_number=:phone_number',

@@ -157,7 +157,7 @@ class Validation
             return null;
         }
 
-        if ($start_time < new DateTime('now') || $end_time < new DateTime('now')) {
+        if ($start_time < new DateTime('now')) {
             $this->logger->log_error('cannot book into the past');
             return null;
         }
@@ -188,6 +188,17 @@ class Validation
         $phone_number = $this->parse_phone_number($_POST['phone_number']);
         if ($phone_number === null) {
             $this->logger->log_error('invalid phone_number');
+            return null;
+        }
+
+        $res = $this->db->execute(
+            'SELECT start_time FROM reservations WHERE id=:id LIMIT 1',
+            [':id' => [$reservation_id, PDO::PARAM_INT]]
+        )->fetchAll();
+        $start_time = $this->db->parse_date_time($res[0]['start_time']);
+        
+        if ($start_time->getTimestamp() - (new DateTime())->getTimestamp() < MIN_TIME_BEFORE_DELETE * 60) {
+            $this->logger->log_error('cannot delete this close to the reservation time');
             return null;
         }
 

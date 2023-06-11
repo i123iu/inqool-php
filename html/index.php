@@ -6,15 +6,12 @@ require_once 'router.php';
 require_once 'models/db.php';
 require_once 'models/model.php';
 
-
-// max 1 day
-define('MAX_RESERVATION_DURATION', 24 * 60);
+require_once 'config/constants.php';
 
 
 $logger = new Logger();
 
-$db_path = ($_ENV['DB_PATH'] ?? '../database/') . 'db.sqlite';
-$db = new DB($db_path, ['models/tables.sql', 'models/test-data.sql']);
+$db = new DB(DB_FILE_PATH, ['models/tables.sql', 'models/test-data.sql']);
 $model = new Model($db, $logger);
 
 $router = new Router($model, $logger);
